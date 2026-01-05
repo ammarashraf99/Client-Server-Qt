@@ -7,7 +7,6 @@
       "-O2",
       "-Wall",
       "-Wextra",
-      "-fPIC",
       "-D_REENTRANT",
       "-DQT_NO_DEBUG",
       "-DQT_GUI_LIB",
@@ -22,11 +21,40 @@
       "-I.",
       "-I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++",
       "-o",
-      "main.o",
-      "main.cpp"
+      "ConnectionWorker.o",
+      "ConnectionWorker.cpp"
     ],
-    "directory": "/home/ammar/programming/Client-Server/Server",
-    "file": "/home/ammar/programming/Client-Server/Server/main.cpp",
-    "output": "/home/ammar/programming/Client-Server/Server/main.o"
+    "directory": "/home/ammar/programming/Client-Server-Qt/Server",
+    "file": "/home/ammar/programming/Client-Server-Qt/Server/ConnectionWorker.cpp",
+    "output": "/home/ammar/programming/Client-Server-Qt/Server/ConnectionWorker.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-pipe",
+      "-O2",
+      "-Wall",
+      "-Wextra",
+      "-D_REENTRANT",
+      "-DQT_NO_DEBUG",
+      "-DQT_GUI_LIB",
+      "-DQT_NETWORK_LIB",
+      "-DQT_CORE_LIB",
+      "-I.",
+      "-I.",
+      "-I/usr/include/x86_64-linux-gnu/qt6",
+      "-I/usr/include/x86_64-linux-gnu/qt6/QtGui",
+      "-I/usr/include/x86_64-linux-gnu/qt6/QtNetwork",
+      "-I/usr/include/x86_64-linux-gnu/qt6/QtCore",
+      "-I.",
+      "-I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++",
+      "-o",
+      "ServerApplication.o",
+      "ServerApplication.cpp"
+    ],
+    "directory": "/home/ammar/programming/Client-Server-Qt/Server",
+    "file": "/home/ammar/programming/Client-Server-Qt/Server/ServerApplication.cpp",
+    "output": "/home/ammar/programming/Client-Server-Qt/Server/ServerApplication.o"
   }
 ]

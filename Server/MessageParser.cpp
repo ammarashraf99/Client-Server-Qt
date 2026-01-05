@@ -8,7 +8,10 @@ std::optional<Request> MessageParser::parse(QString line)
         line = line.trimmed();
         req.command = line.section(' ', 0, 0);
 
-        QStringList lineList = line.split(';');
+        QStringList lineList = line.section(' ', 1, -1).split(';');
+        for (auto& el : lineList) {
+                el = el.trimmed();
+        }
         req.arguments = std::move(lineList);
 
         return req;

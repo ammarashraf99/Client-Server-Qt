@@ -5,7 +5,7 @@
 class ConnectionWorker : public QObject {
         Q_OBJECT
  public:
-        explicit ConnectionWorker(qintptr sd);
+        explicit ConnectionWorker(QTcpSocket* socket);
 
 public slots:
         void start();

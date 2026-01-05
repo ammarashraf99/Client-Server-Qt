@@ -2,32 +2,25 @@
 #include "MessageParser.h"
 
 
-ConnectionWorker::ConnectionWorker(qintptr sd)
-        :m_sockDescriptor(sd)
+ConnectionWorker::ConnectionWorker(QTcpSocket* socket)
+        :m_socket(socket)
 {
-        m_socket = new QTcpSocket(this);
 }
 
 void ConnectionWorker::start()
 {
-        qDebug() << "Begin start()";
+        connect(m_socket, &QTcpSocket::readyRead,
+                this, &ConnectionWorker::onReadyRead);
 
-        m_socket->setSocketDescriptor(m_sockDescriptor);
-
-        connect(m_socket, &QTcpSocket::readyRead, this, &ConnectionWorker::onReadyRead);
-
-        connect(m_socket, &QTcpSocket::disconnected, m_socket, &QObject::deleteLater);
-        qDebug() << "End start()";
+        connect(m_socket, &QTcpSocket::disconnected,
+                m_socket, &QObject::deleteLater);
 }
 
 void ConnectionWorker::onReadyRead()
 {
-        while( m_socket->canReadLine() ) {
-                qDebug() << "onReadyRead";
-                QString line = m_socket->readAll();
-                m_socket->write("Waaer");
-                handleLine(line);
-        }
+        qDebug() << "onReadyRead";
+        QString line = m_socket->readAll();
+        handleLine(line);
 }
 
 void ConnectionWorker::handleLine(const QString& line)
@@ -38,7 +31,7 @@ void ConnectionWorker::handleLine(const QString& line)
         if (!req)
                 return;
 
-        qDebug() << "Command is " << req.value().command;
+        qDebug() << "Command is [ " << req.value().command << " ]";
 
         qDebug() << "Args are:";
         for(auto arg : req.value().arguments)

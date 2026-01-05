@@ -16,12 +16,11 @@ ServerApplication::ServerApplication(QObject *parent)
 void ServerApplication::onNewConnection()
 {
         qDebug() << "New Connection";
+
         QTcpSocket* socket = m_server.nextPendingConnection();
-        auto sd = socket->socketDescriptor();
-        socket->deleteLater();
 
         auto* thread = new QThread;
-        auto* worker = new ConnectionWorker(sd);
+        auto* worker = new ConnectionWorker(socket);
 
         worker->moveToThread(thread);
 
