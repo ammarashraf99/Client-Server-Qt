@@ -1,5 +1,9 @@
 #include "ConnectionWorker.h"
+#include "Command.h"
 #include "MessageParser.h"
+#include "CommandFactory.h"
+#include "Result.h"
+#include <memory>
 
 
 ConnectionWorker::ConnectionWorker(QTcpSocket* socket)
@@ -26,27 +30,38 @@ void ConnectionWorker::onReadyRead()
 void ConnectionWorker::handleLine(const QString& line)
 {
         qDebug() << "Started handling line";
+
+        Result result;
+
+        // 127 command not found (exit code shell/processes)
         std::optional<Request> req = MessageParser::parse(line);
-
-        if (!req)
+        if (!req) {
+                result.Ok() = false;
+                result.Message() = "COMMAND_NOT_FOUND";
+                result.ErrorCode() = 127;
+                m_socket->write(result.Response().toUtf8());
                 return;
-
-        qDebug() << "Command is [ " << req.value().command << " ]";
-
-        qDebug() << "Args are:";
-        for(auto arg : req.value().arguments)
-        {
-                qDebug() << arg;
         }
 
+        // commands factory...
+        // should not return an error
+        std::unique_ptr<Command> command = CommandFactory::create(req.value());
 
         // validate
+        // BAD REQUEST error 400 (https)
+        if (!command->validate()) {
+                result.Ok() = false;
+                result.Message() = "BAD_REQUEST";
+                result.ErrorCode() = 400;
+                m_socket->write(result.Response().toUtf8());
+                return;
+        }
 
-        // commands factory...
+        // execute the command
+        result = command->execute();
 
-        // dispatch
-
-        // result socket write... success of fail
+        m_socket->write(result.Response().toUtf8());
+        return;
 }
 
 

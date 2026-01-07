@@ -7,26 +7,25 @@
       "-O2",
       "-Wall",
       "-Wextra",
+      "-fPIC",
       "-D_REENTRANT",
       "-DQT_NO_DEBUG",
       "-DQT_GUI_LIB",
-      "-DQT_NETWORK_LIB",
       "-DQT_CORE_LIB",
       "-I.",
       "-I.",
       "-I/usr/include/x86_64-linux-gnu/qt6",
       "-I/usr/include/x86_64-linux-gnu/qt6/QtGui",
-      "-I/usr/include/x86_64-linux-gnu/qt6/QtNetwork",
       "-I/usr/include/x86_64-linux-gnu/qt6/QtCore",
       "-I.",
       "-I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++",
       "-o",
-      "ConnectionWorker.o",
-      "ConnectionWorker.cpp"
+      "AuthCommand.o",
+      "AuthCommand.cpp"
     ],
-    "directory": "/home/ammar/programming/Client-Server-Qt/Server",
-    "file": "/home/ammar/programming/Client-Server-Qt/Server/ConnectionWorker.cpp",
-    "output": "/home/ammar/programming/Client-Server-Qt/Server/ConnectionWorker.o"
+    "directory": "/home/ammar/programming/Client-Server/Server",
+    "file": "/home/ammar/programming/Client-Server/Server/AuthCommand.cpp",
+    "output": "/home/ammar/programming/Client-Server/Server/AuthCommand.o"
   },
   {
     "arguments": [
@@ -36,25 +35,52 @@
       "-O2",
       "-Wall",
       "-Wextra",
+      "-fPIC",
       "-D_REENTRANT",
       "-DQT_NO_DEBUG",
       "-DQT_GUI_LIB",
-      "-DQT_NETWORK_LIB",
       "-DQT_CORE_LIB",
       "-I.",
       "-I.",
       "-I/usr/include/x86_64-linux-gnu/qt6",
       "-I/usr/include/x86_64-linux-gnu/qt6/QtGui",
-      "-I/usr/include/x86_64-linux-gnu/qt6/QtNetwork",
       "-I/usr/include/x86_64-linux-gnu/qt6/QtCore",
       "-I.",
       "-I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++",
       "-o",
-      "ServerApplication.o",
-      "ServerApplication.cpp"
+      "CommandFactory.o",
+      "CommandFactory.cpp"
     ],
-    "directory": "/home/ammar/programming/Client-Server-Qt/Server",
-    "file": "/home/ammar/programming/Client-Server-Qt/Server/ServerApplication.cpp",
-    "output": "/home/ammar/programming/Client-Server-Qt/Server/ServerApplication.o"
+    "directory": "/home/ammar/programming/Client-Server/Server",
+    "file": "/home/ammar/programming/Client-Server/Server/CommandFactory.cpp",
+    "output": "/home/ammar/programming/Client-Server/Server/CommandFactory.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-pipe",
+      "-O2",
+      "-Wall",
+      "-Wextra",
+      "-fPIC",
+      "-D_REENTRANT",
+      "-DQT_NO_DEBUG",
+      "-DQT_GUI_LIB",
+      "-DQT_CORE_LIB",
+      "-I.",
+      "-I.",
+      "-I/usr/include/x86_64-linux-gnu/qt6",
+      "-I/usr/include/x86_64-linux-gnu/qt6/QtGui",
+      "-I/usr/include/x86_64-linux-gnu/qt6/QtCore",
+      "-I.",
+      "-I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++",
+      "-o",
+      "Result.o",
+      "Result.cpp"
+    ],
+    "directory": "/home/ammar/programming/Client-Server/Server",
+    "file": "/home/ammar/programming/Client-Server/Server/Result.cpp",
+    "output": "/home/ammar/programming/Client-Server/Server/Result.o"
   }
 ]

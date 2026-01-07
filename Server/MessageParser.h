@@ -1,11 +1,8 @@
 #pragma once
 #include <optional>
 #include <QObject>
+#include "Request.h"
 
-struct Request {
-        QString command;
-        QStringList arguments;
-};
 
 class MessageParser {
 public:
