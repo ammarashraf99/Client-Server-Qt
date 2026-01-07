@@ -7,7 +7,7 @@
 class AuthCommand final : public Command
 {
 public:
-        AuthCommand(QStringList args);
+        AuthCommand(const QStringList& args);
         ~AuthCommand();
 
         bool validate() const override;
@@ -20,6 +20,6 @@ private:
         struct {
                 QString User = "admin";
                 QString Pass = "admin";
-        }Credentials;
+        } m_Credentials;
 };
 

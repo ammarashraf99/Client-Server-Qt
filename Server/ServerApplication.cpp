@@ -4,29 +4,31 @@
 #include <QThread>
 
 ServerApplication::ServerApplication(QObject *parent)
-        :QObject(parent)
+        :QTcpServer(parent)
 {
-        connect(&m_server, &QTcpServer::newConnection,
-                this, &ServerApplication::onNewConnection);
-
-        m_server.listen(QHostAddress::Any, 12345);
-        qInfo() << "Started listening on port 12345";
+        this->listen(QHostAddress::Any, 12345);
+        qInfo() << "[INFO] Started listening on port 12345";
 }
 
-void ServerApplication::onNewConnection()
+void ServerApplication::incomingConnection(qintptr socketDescriptor)
 {
-        qDebug() << "New Connection";
-
-        QTcpSocket* socket = m_server.nextPendingConnection();
-
-        auto* thread = new QThread;
-        auto* worker = new ConnectionWorker(socket);
+        qInfo() << "[INFO] New Connection";
+        QThread *thread = new QThread;
+        ConnectionWorker *worker = new ConnectionWorker(socketDescriptor);
 
         worker->moveToThread(thread);
 
-        connect(thread, &QThread::started, worker, &ConnectionWorker::start);
-        connect(worker, &QObject::destroyed, thread, &QThread::quit);
-        connect(thread, &QThread::finished, thread, &QObject::deleteLater);
+        connect(thread, &QThread::started,
+                worker, &ConnectionWorker::start);
+
+        connect(worker, &ConnectionWorker::finished,
+                thread, &QThread::quit);
+
+        connect(worker, &ConnectionWorker::finished,
+                worker, &QObject::deleteLater);
+
+        connect(thread, &QThread::finished,
+                thread, &QObject::deleteLater);
 
         thread->start();
 }

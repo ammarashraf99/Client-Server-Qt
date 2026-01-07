@@ -2,3 +2,6 @@
 moc*
 *.o
 .qmake.stash
+Makefile
+compile_commands.json
+Server

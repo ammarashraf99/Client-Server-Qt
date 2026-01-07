@@ -6,30 +6,48 @@
 #include <memory>
 
 
-ConnectionWorker::ConnectionWorker(QTcpSocket* socket)
-        :m_socket(socket)
+ConnectionWorker::ConnectionWorker(qintptr socketDescriptor, QObject *parent)
+        :QObject(parent), m_sockDescriptor(socketDescriptor)
 {
 }
 
+
 void ConnectionWorker::start()
 {
+        m_socket = new QTcpSocket(this);
+
+        if (!m_socket->setSocketDescriptor(m_sockDescriptor)) {
+                qWarning() << "[Warning] Failed to set socket descriptor";
+                emit finished();
+                return;
+        }
+
         connect(m_socket, &QTcpSocket::readyRead,
                 this, &ConnectionWorker::onReadyRead);
 
         connect(m_socket, &QTcpSocket::disconnected,
-                m_socket, &QObject::deleteLater);
+                this, &ConnectionWorker::onDisconnected);
 }
+
+
+void ConnectionWorker::onDisconnected()
+{
+        qInfo() << "[INFO] Client Disconnected";
+
+        m_socket->deleteLater();
+        emit finished();
+}
+
 
 void ConnectionWorker::onReadyRead()
 {
-        qDebug() << "onReadyRead";
         QString line = m_socket->readAll();
         handleLine(line);
 }
 
 void ConnectionWorker::handleLine(const QString& line)
 {
-        qDebug() << "Started handling line";
+        qInfo() << "[INFO] Started handling line";
 
         Result result;
 
@@ -38,8 +56,8 @@ void ConnectionWorker::handleLine(const QString& line)
         if (!req) {
                 result.Ok() = false;
                 result.Message() = "COMMAND_NOT_FOUND";
-                result.ErrorCode() = 127;
-                m_socket->write(result.Response().toUtf8());
+                result.ErrorCode() = static_cast<int>(Result::ErrorCode::COMMAND_NOT_FOUND);
+                m_socket->write(result.Response().toUtf8() + "\n");
                 return;
         }
 
@@ -52,16 +70,15 @@ void ConnectionWorker::handleLine(const QString& line)
         if (!command->validate()) {
                 result.Ok() = false;
                 result.Message() = "BAD_REQUEST";
-                result.ErrorCode() = 400;
-                m_socket->write(result.Response().toUtf8());
+                result.ErrorCode() = static_cast<int>(Result::ErrorCode::BAD_REQUEST);
+                m_socket->write(result.Response().toUtf8() + "\n");
                 return;
         }
 
         // execute the command
         result = command->execute();
 
-        m_socket->write(result.Response().toUtf8());
+        m_socket->write(result.Response().toUtf8() + "\n");
         return;
 }
-
 

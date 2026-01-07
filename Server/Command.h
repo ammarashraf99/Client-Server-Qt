@@ -1,5 +1,6 @@
 #pragma once
 #include <QString>
+#include <QStringList>
 #include <unordered_map>
 #include <string_view>
 #include "Result.h"
@@ -40,7 +41,7 @@ private:
                 {"AUTH", CommandE::AUTH},
                 {"CREATE", CommandE::CREATE},
                 {"WRITE", CommandE::WRITE},
-                {"WRITE", CommandE::WRITE},
+                {"APPEND", CommandE::APPEND},
                 {"READ", CommandE::READ},
                 {"DELETE", CommandE::DELETE},
                 {"RENAME", CommandE::RENAME},

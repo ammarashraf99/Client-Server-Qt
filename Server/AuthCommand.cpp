@@ -1,8 +1,9 @@
 #include "AuthCommand.h"
 #include "Result.h"
+#include <QDebug>
 
 
-AuthCommand::AuthCommand(QStringList args)
+AuthCommand::AuthCommand(const QStringList& args)
         :m_args(args)
 {
 }
@@ -27,11 +28,14 @@ bool AuthCommand::validate() const
 
 Result AuthCommand::execute()
 {
-        if (m_args.first() == Credentials.User && m_args.last() == Credentials.Pass) {
+        m_args = m_args.first().split(',');
+
+        if (m_args.first() == m_Credentials.User && m_args.last() == m_Credentials.Pass) {
                 Result res(true, "OK");
                 return res;
         } else {
-                Result res(false, "UNAUTHORIZED_ACCESS", 401);
+                Result res(false, "UNAUTHORIZED_ACCESS",
+                           static_cast<int>(Result::ErrorCode::UNAUTHORIZED_ACCESS));
                 return res;
         }
 }
